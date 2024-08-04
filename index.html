@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelacak Keuangan</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <script defer src="script.js"></script>
+    <script defer src="backup.js"></script>
+    <style>
+        .clock {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #password-prompt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        #password-prompt input {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        #password-prompt button {
+            padding: 10px;
+            background: #007bff;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        #password-prompt button:hover {
+            background: #0056b3;
+        }
+    </style>
+    <script>
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === '2124') {
+                document.getElementById('password-prompt').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            } else {
+                alert('Password salah, coba lagi.');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('main-content').style.display = 'none';
+        });
+    </script>
+</head>
+<body>
+    <div id="password-prompt">
+        <h1>Masukkan Password</h1>
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="checkPassword()">Submit</button>
+    </div>
+
+    <div id="main-content">
+        <header>
+            <button id="menu-toggle" class="menu-toggle">
+                <img src="https://via.placeholder.com/50" alt="Menu"> <!-- Updated icon size -->
+            </button>
+            <nav id="menu" class="menu">
+                <ul>
+                    <li><a href="#" id="main-page-link">Tracker</a></li>
+                    <li><a href="#" id="report-page-link">Laporan Bulanan</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="container" id="main-page">
+            <h1>Pelacak Keuangan</h1>
+            <p>Lacak anggaran dan pengeluaran Anda dengan mudah.</p>
+            <div class="clock" id="clock"></div>
+
+            <div class="input-section">
+                <h2>Tambah Transaksi Baru</h2>
+                <form id="transaction-form">
+                    <label for="user">Pengguna:</label>
+                    <select id="user" required>
+                        <option value="Mas">Mas</option>
+                        <option value="Adek">Adek</option>
+                    </select>
+
+                    <label for="type">Jenis Transaksi:</label>
+                    <select id="type" required>
+                        <option value="income">Pemasukan</option>
+                        <option value="expense">Pengeluaran</option>
+                    </select>
+                    
+                    <label for="description">Deskripsi:</label>
+                    <input type="text" id="description" required>
+                    
+                    <label for="category">Kategori:</label>
+                    <select id="category" required>
+                        <option value="Pribadi">Pribadi</option>
+                        <option value="Operasional">Operasional</option>
+                        <option value="Togheter">Togheter</option>
+                    </select>
+                    
+                    <label for="budget">Jumlah (Rp):</label>
+                    <input type="text" id="budget" required oninput="formatCurrency(this)">
+                    
+                    <div id="actual-container" style="display: none;">
+                        <label for="actual">Aktual (Rp):</label>
+                        <input type="text" id="actual" oninput="formatCurrency(this)">
+                    </div>
+                    
+                    <button type="submit">Tambah Transaksi</button>
+                </form>
+            </div>
+
+            <div class="transactions-section">
+                <h2>Daftar Transaksi - Mas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Jenis</th>
+                            <th>Deskripsi</th>
+                            <th>Kategori</th>
+                            <th>Anggaran (Rp)</th>
+                            <th>Aktual (Rp)</th>
+                            <th>Selisih (Rp)</th>
+                            <th>Selisih (%)</th>
+                            <th>Tanggal</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transaction-list-mas"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"><strong>Total Pemasukan</strong></td>
+                            <td id="total-income-mas">0</td>
+                            <td colspan="5"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><strong>Total Pengeluaran</strong></td>
+                            <td id="total-budget-mas">0</td>
+                            <td id="total-actual-mas">0</td>
+                            <td id="total-difference-mas">0</td>
+                            <td id="total-percentage-mas">0%</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><strong>Saldo Bersih</strong></td>
+                            <td id="net-balance-mas" colspan="6">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="transactions-section">
+                <h2>Daftar Transaksi - Adek</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Jenis</th>
+                            <th>Deskripsi</th>
+                            <th>Kategori</th>
+                            <th>Anggaran (Rp)</th>
+                            <th>Aktual (Rp)</th>
+                            <th>Selisih (Rp)</th>
+                            <th>Selisih (%)</th>
+                            <th>Tanggal</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transaction-list-adek"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"><strong>Total Pemasukan</strong></td>
+                            <td id="total-income-adek">0</td>
+                            <td colspan="5"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><strong>Total Pengeluaran</strong></td>
+                            <td id="total-budget-adek">0</td>
+                            <td id="total-actual-adek">0</td>
+                            <td id="total-difference-adek">0</td>
+                            <td id="total-percentage-adek">0%</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><strong>Saldo Bersih</strong></td>
+                            <td id="net-balance-adek" colspan="6">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div>
+                <button id="backup_button">Backup to CSV</button>
+            </div>
+        </div>
+
+        <div class="container" id="report-page" style="display: none;">
+            <h2>Laporan Bulanan</h2>
+            <canvas id="report-chart"></canvas>
+            <pre id="report-content"></pre>
+            <button id="download-csv">Download CSV</button>
+            <button id="send-email">Send Email</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="backup.js"></script>
+</body>
+</html>

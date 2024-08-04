@@ -1,0 +1,177 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.input-section, .transactions-section {
+    margin-bottom: 20px;
+    animation: fadeInUp 0.5s ease-in-out;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #007bff;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Adjusting table styling */
+.transactions-section table {
+    width: 100%;
+    max-width: 100%; /* Ensure table does not exceed container width */
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-in-out;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Added to help control table layout */
+}
+
+.transactions-section th, 
+.transactions-section td {
+    padding: 10px; /* Adjusted padding for better fit */
+    text-align: center;
+    border: 1px solid #ddd;
+    word-wrap: break-word; /* Ensure content wraps to the next line */
+}
+
+.transactions-section th {
+    background-color: #007bff; /* Blue header */
+    color: white;
+    text-transform: uppercase;
+}
+
+.transactions-section td {
+    background-color: #ffffff;
+}
+
+.transactions-section tbody tr:nth-child(even) td {
+    background-color: #f2f2f2;
+}
+
+.transactions-section tbody tr:hover td {
+    background-color: #ddd;
+}
+
+.transactions-section tfoot td {
+    font-weight: bold;
+    background-color: #f2f2f2;
+    color: #333;
+    padding: 15px;
+    border-top: 2px solid #007bff;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    background-color: #007bff;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.menu.show {
+    display: block;
+    animation: slideDown 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    z-index: 1000;
+}
+
+.menu-toggle img {
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+}
